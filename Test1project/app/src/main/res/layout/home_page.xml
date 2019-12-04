@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/welcomeTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Welcome user" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <RadioGroup
+            android:id="@+id/radioGrp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/graduatedBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Graduated" />
+
+            <RadioButton
+                android:id="@+id/ungraduatedBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ungraduated" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/courseSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/addCourseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/accomodationCBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accomodation" />
+
+        <CheckBox
+            android:id="@+id/insuranceCBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medical Insurance" />
+
+        <TextView
+            android:id="@+id/courseFeesTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Course fees is " />
+
+        <TextView
+            android:id="@+id/totalFeesTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total fees is " />
+
+        <TextView
+            android:id="@+id/courseHoursTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Course hours is " />
+
+        <TextView
+            android:id="@+id/totalHoursTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Hours is " />
+    </LinearLayout>
+
+</LinearLayout>
