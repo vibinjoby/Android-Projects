@@ -43,6 +43,7 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         studentObj = new Student();
+        studentObj.setGraduated(true);
         inititalizeComponents();
         loadCourseMap();
         addCourseBtn.setOnClickListener(this);
@@ -165,7 +166,7 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        courseOpted = "Java";
     }
 
     @Override
@@ -177,10 +178,11 @@ public class HomePageActivity extends AppCompatActivity implements AdapterView.O
             courseSelectedLst.add(courseOpted);
             studentObj.setCoursesSelected(courseSelectedLst);
             studentObj.setTotalHours(hours);
+            addCourseAndHours(courseOpted, hours, fees);
         } else {
-            if (studentObj.isGraduated() && !(studentObj.getTotalHours() >= 21)) {
+            if (studentObj.isGraduated() && (studentObj.getTotalHours() <= 21)) {
                 addCourseAndHours(courseOpted, hours, fees);
-            } else if (!studentObj.isGraduated() && !(studentObj.getTotalHours() >= 19)) {
+            } else if (!studentObj.isGraduated() && (studentObj.getTotalHours() <= 19)) {
                 addCourseAndHours(courseOpted, hours, fees);
             } else {
                 showAlertWindow("You can't add the course");
