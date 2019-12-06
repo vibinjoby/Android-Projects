@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <ImageView
         android:layout_gravity="start"
         android:layout_width="50dp"
@@ -20,19 +19,4 @@
         android:gravity="bottom"
         android:padding="10dp"
         android:textColor="#FFFFFF" />
-    <ImageView
-        android:layout_gravity="end"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/lijosh_cropped" />
-
-    <TextView
-        android:id="@+id/respTxtView"
-        android:layout_marginLeft="4dp"
-        android:padding="10dp"
-        android:layout_gravity="end"
-        android:ems="10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/left_text"/>
 </LinearLayout>

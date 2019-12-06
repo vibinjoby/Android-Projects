@@ -5,57 +5,84 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import apiDataModel.ChatMessages;
 import apiDataModel.ChatbotResponse;
 
-public class ChatBotAdapter extends RecyclerView.Adapter<ChatBotAdapter.ChatbotViewHolder> {
-    private List<ChatbotResponse> chatResponseModel;
+public class ChatBotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private List<ChatMessages> chatResponseModel;
+    private static int LEFT_CHAT = 1;
+    private static int RIGHT_CHAT = 2;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ChatbotViewHolder extends RecyclerView.ViewHolder {
+    class LeftChatViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public View view;
         public TextView reqTxtView;
-        public TextView respTxtView;
 
 
-        public ChatbotViewHolder(View v) {
+        public LeftChatViewHolder(View v) {
             super(v);
             view = v;
             reqTxtView = (TextView) view.findViewById(R.id.reqTxtView);
+        }
+    }
+
+    class RightChatViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public View view;
+        public TextView respTxtView;
+
+
+        public RightChatViewHolder(View v) {
+            super(v);
+            view = v;
             respTxtView = (TextView) view.findViewById(R.id.respTxtView);
         }
     }
 
 
-    public ChatBotAdapter(List<ChatbotResponse> quizPojoModel) {
-        chatResponseModel = quizPojoModel;
+    public ChatBotAdapter(List<ChatMessages> chatResponseModel) {
+        this.chatResponseModel = chatResponseModel;
     }
 
 
     @Override
-    public ChatBotAdapter.ChatbotViewHolder onCreateViewHolder(ViewGroup parent,
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int viewType) {
-        View v = (View) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.chat_layout, parent, false);
-        ChatbotViewHolder vh = new ChatbotViewHolder(v);
-        return vh;
+        View v;
+        if(viewType == LEFT_CHAT) {
+            v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.left_layout, parent, false);
+            return new LeftChatViewHolder(v);
+        } else {
+            v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.right_layout, parent, false);
+            return new RightChatViewHolder(v);
+        }
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ChatbotViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        if (chatResponseModel.get(position).getResult() != null) {
-            holder.reqTxtView.setText(chatResponseModel.get(position).getResult().getResolvedQuery());
-            holder.respTxtView.setText(chatResponseModel.get(position).getResult().getFulfillment().getSpeech());
+        if (chatResponseModel.get(position) != null) {
+            if ((getItemViewType(position) == LEFT_CHAT)) {
+                ((LeftChatViewHolder) holder).reqTxtView.setText(chatResponseModel.get(position).getMessage());
+            } else {
+                ((RightChatViewHolder) holder).respTxtView.setText(chatResponseModel.get(position).getMessage());
+            }
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return chatResponseModel.get(position).getSide();
     }
 
     // Return the size of your dataset (invoked by the layout manager)

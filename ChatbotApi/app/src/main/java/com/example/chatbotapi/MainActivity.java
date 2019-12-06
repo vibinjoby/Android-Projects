@@ -1,13 +1,11 @@
 package com.example.chatbotapi;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import apiDataModel.ChatMessages;
 import apiDataModel.ChatbotRequest;
 import apiDataModel.ChatbotResponse;
 import apiHelper.ChatbotApiHelper;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         requestTxt = (EditText) findViewById(R.id.sendTxt);
 
         recyclerView = (RecyclerView) findViewById(R.id.chatView);
@@ -48,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         chatService = ChatbotApiHelper.getAPIService();
 
-        final List<ChatbotResponse> chatResponseLst = new ArrayList<>();
+        final List<ChatMessages> chatResponseLst = new ArrayList<>();
         chatAdapter = new ChatBotAdapter(chatResponseLst);
+
         recyclerView.setAdapter(chatAdapter);
 
         recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -94,18 +95,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!requestTxt.getText().toString().isEmpty()) {
+
+                    ChatMessages reqMsg = new ChatMessages();
+                    reqMsg.setSide(1);
+                    reqMsg.setMessage(requestTxt.getText().toString());
+                    chatResponseLst.add(reqMsg);
+                    chatAdapter.notifyItemChanged(chatAdapter.getItemCount() - 1);
+
+
                     ChatbotRequest request = new ChatbotRequest();
                     request.setLang("en");
                     request.setQuery(requestTxt.getText().toString());
                     request.setSessionId("12345");
-                    chatResponseLst.add(sendPost(request));
+                    ChatMessages respMsg = new ChatMessages();
+                    sendPost(request, respMsg);
+                    chatResponseLst.add(respMsg);
                     requestTxt.setText("");
                 }
             }
         });
     }
 
-    public ChatbotResponse sendPost(ChatbotRequest request) {
+    public ChatbotResponse sendPost(ChatbotRequest request,final ChatMessages respMsg ) {
         final ChatbotResponse chatbotResponse = new ChatbotResponse();
         chatService.postChatRequest("20191129", request).enqueue(new Callback<ChatbotResponse>() {
             @Override
@@ -113,8 +124,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     System.out.println(response.body().getResult());
+                    respMsg.setSide(2);
+                    respMsg.setMessage(response.body().getResult().getFulfillment().getSpeech());
                     chatbotResponse.setResult(response.body().getResult());
-                    chatAdapter.notifyDataSetChanged();
+                    chatAdapter.notifyItemChanged(chatAdapter.getItemCount() - 1);
                 }
             }
 
