@@ -5,13 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import apiDataModel.ChatMessages;
-import apiDataModel.ChatbotResponse;
 
 public class ChatBotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ChatMessages> chatResponseModel;

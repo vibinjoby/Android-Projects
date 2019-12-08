@@ -7,7 +7,7 @@
         android:layout_gravity="end"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/lijosh_cropped" />
+        android:background="@drawable/girl_bot_img" />
 
     <TextView
         android:id="@+id/respTxtView"
